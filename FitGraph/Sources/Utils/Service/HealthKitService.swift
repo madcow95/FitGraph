@@ -1,0 +1,5 @@
+import HealthKit
+
+class HealthKitService {
+    
+}
