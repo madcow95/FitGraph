@@ -8,6 +8,14 @@ struct HomeView: View {
                     Text("Home View")
                 }
             }
+            .onAppear {
+                let hkService = HealthKitService()
+                hkService.requestHKAuth() { result in
+                    if result {
+                        hkService.startObserve()
+                    }
+                }
+            }
         }
     }
 }
