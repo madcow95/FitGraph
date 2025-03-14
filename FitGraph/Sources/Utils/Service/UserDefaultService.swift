@@ -1,4 +1,4 @@
-import Foundation
+import SwiftUI
 import Combine
 
 class UserDefaultService: ObservableObject {
@@ -20,8 +20,10 @@ class UserDefaultService: ObservableObject {
     }
     
     func setAppearance() {
-        let newAppearance = appearance == "Light" ? "Dark" : "Light"
-        defaults.set(newAppearance, forKey: "appearance")
-        appearance = newAppearance
+        withAnimation {        
+            let newAppearance = appearance == "Light" ? "Dark" : "Light"
+            defaults.set(newAppearance, forKey: "appearance")
+            appearance = newAppearance
+        }
     }
 }

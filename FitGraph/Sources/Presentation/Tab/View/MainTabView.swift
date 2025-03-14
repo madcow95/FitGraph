@@ -1,20 +1,15 @@
 import SwiftUI
 
 struct MainTabView: View {
-    @EnvironmentObject var userService: UserDefaultService
     
     var body: some View {
         TabView {
             Tab("", systemImage: "house.fill") {
-                BackgroundView {                
-                    HomeView()
-                }
+                HomeView()
             }
 
             Tab("", systemImage: "person.fill") {
-                BackgroundView {                
-                    MyPageView()
-                }
+                MyPageView()
             }
         }
         .tint(Color.mainColor)
@@ -23,5 +18,4 @@ struct MainTabView: View {
 
 #Preview {
     MainTabView()
-        .environmentObject(UserDefaultService.shared)
 }

@@ -1,15 +1,24 @@
-//
-//  MyPageView.swift
-//  FitGraph
-//
-//  Created by 최광우 on 3/13/25.
-//
-
 import SwiftUI
 
 struct MyPageView: View {
     var body: some View {
-        Text("My Page")
+        NavigationStack {
+            ZStack {
+                VStack {
+                    Text("My Page")
+                }
+            }
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    NavigationLink {
+                        SettingView()
+                    } label: {
+                        Image(systemName: "gearshape")
+                            .tint(.mainColor)
+                    }
+                }
+            }
+        }
     }
 }
 
