@@ -285,7 +285,8 @@ struct WalkingContainer: View {
                                 Image(systemName: "circle.circle.fill")
                                     .resizable()
                                     .scaledToFit()
-                                    .frame(width: height / 8, height: height / 8)
+                                    .frame(width: width / 8,
+                                           height: width / 8)
                             }
                         }
                     }

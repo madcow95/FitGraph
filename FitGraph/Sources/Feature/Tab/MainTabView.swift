@@ -2,6 +2,7 @@ import SwiftUI
 import ComposableArchitecture
 
 struct MainTabView: View {
+    let store: StoreOf<MainTabFeature>
     
     var body: some View {
         TabView {
@@ -15,10 +16,15 @@ struct MainTabView: View {
                 MyPageView()
             }
         }
+        .onAppear {
+            store.send(.requestAuth)
+        }
         .tint(Color.mainColor)
     }
 }
 
 #Preview {
-    MainTabView()
+    MainTabView(store: Store(initialState: MainTabFeature.TabState(), reducer: {
+        MainTabFeature(HKService: HealthKitService())
+    }))
 }

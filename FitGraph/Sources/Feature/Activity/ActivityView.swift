@@ -30,6 +30,7 @@ struct ActivityView: View {
                                         Text(date.dayStr)
                                             .bold()
                                         Text(date.dayOfWeek)
+                                            .bold()
                                     }
                                     .padding()
                                     .overlay {
@@ -75,8 +76,8 @@ struct ActivityView: View {
                 }
             }
             .onAppear {
-                self.store.send(.dateSelected(Date().weekdayOffset()))
-                self.store.send(.onAppear)
+                store.send(.dateSelected(Date().weekdayOffset()))
+                store.send(.onAppear)
             }
         }
     }

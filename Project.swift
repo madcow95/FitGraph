@@ -32,7 +32,10 @@ let project = Project(
                 "FitGraph/Sources/Utils/**"
             ],
             resources: ["FitGraph/Resources/**"],
-            dependencies: []
+            dependencies: [
+                .external(name: "ComposableArchitecture"),
+                .external(name: "Kingfisher")
+            ],
         ),
         .target(
             name: "FitGraphTests",
