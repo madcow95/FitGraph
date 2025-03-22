@@ -26,11 +26,10 @@ let project = Project(
             ),
             sources: [
                 "FitGraph/Sources/**",
+                "FitGraph/Sources/Dependency/**",
+                "FitGraph/Sources/Feature/**",
                 "FitGraph/Sources/App/**",
-                "FitGraph/Sources/Data/**",
-                "FitGraph/Sources/Service/**",
-                "FitGraph/Sources/Utils/**",
-                "FitGraph/Sources/Presentation/**"
+                "FitGraph/Sources/Utils/**"
             ],
             resources: ["FitGraph/Resources/**"],
             dependencies: []

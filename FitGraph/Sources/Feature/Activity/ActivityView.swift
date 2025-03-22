@@ -1,7 +1,8 @@
 import SwiftUI
+import ComposableArchitecture
 
 struct ActivityView: View {
-    @State var selectedIdx: Int = 0
+    let store: StoreOf<ActivityFeature>
     
     var body: some View {
         GeometryReader { geo in
@@ -21,7 +22,7 @@ struct ActivityView: View {
                         .padding()
                         
                         ScrollView(.horizontal, showsIndicators: false) {
-                            let weeks = Date().getWeekDay(from: Date())
+                            let weeks = store.dates
                             HStack(spacing: -30) {
                                 ForEach(weeks.indices, id: \.self) { i in
                                     let date = weeks[i]
@@ -34,14 +35,12 @@ struct ActivityView: View {
                                     .overlay {
                                         ZStack {
                                             RoundedRectangle(cornerRadius: 20)
-                                                .fill(i == selectedIdx ? Color.green.opacity(0.5) : Color.clear)
+                                                .fill(i == store.selectedIndex ? Color.green.opacity(0.5) : Color.clear)
                                         }
                                     }
                                     .foregroundStyle(Int(Date().dayStr)! >= Int(date.dayStr)! ? Color(UIColor.label) : Color(UIColor.lightGray))
                                     .onTapGesture {
-                                        withAnimation(.interactiveSpring) {
-                                            self.selectedIdx = i
-                                        }
+                                        self.store.send(.dateSelected(i), animation: .interactiveSpring)
                                     }
                                 }
                                 .padding()
@@ -76,12 +75,15 @@ struct ActivityView: View {
                 }
             }
             .onAppear {
-                self.selectedIdx = Date().weekdayOffset()
+                self.store.send(.dateSelected(Date().weekdayOffset()))
+                self.store.send(.onAppear)
             }
         }
     }
 }
 
 #Preview {
-    ActivityView()
+    ActivityView(store: Store(initialState: ActivityFeature.ActivityState(selectedIndex: 0, dates: []), reducer: {
+        ActivityFeature()
+    }))
 }
