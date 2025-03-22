@@ -5,7 +5,7 @@ struct MainTabView: View {
     var body: some View {
         TabView {
             Tab("", systemImage: "house.fill") {
-                HomeView()
+                ActivityView()
             }
 
             Tab("", systemImage: "person.fill") {
