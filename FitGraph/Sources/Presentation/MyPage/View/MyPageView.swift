@@ -5,7 +5,7 @@ struct MyPageView: View {
         NavigationStack {
             ZStack {
                 VStack {
-                    Text("My Page")
+                    
                 }
             }
             .toolbar {
