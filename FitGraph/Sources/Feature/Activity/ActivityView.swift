@@ -62,7 +62,9 @@ struct ActivityView: View {
                             }
                             
                             HStack {
-                                WalkingContainer(width: containerWidth, height: containerHeight)
+                                WalkingContainer(width: containerWidth,
+                                                 height: containerHeight,
+                                                 walkCount: store.stepCount)
                                 NoiseContainer(width: containerWidth, height: containerHeight)
                             }
                             
@@ -76,15 +78,15 @@ struct ActivityView: View {
                 }
             }
             .onAppear {
-                store.send(.dateSelected(Date().weekdayOffset()))
                 store.send(.onAppear)
+                store.send(.dateSelected(Date().weekdayOffset()))
             }
         }
     }
 }
 
 #Preview {
-    ActivityView(store: Store(initialState: ActivityFeature.ActivityState(selectedIndex: 0, dates: []), reducer: {
-        ActivityFeature()
+    ActivityView(store: Store(initialState: ActivityFeature.ActivityState(selectedIndex: 0, dates: [], stepCount: 0), reducer: {
+        ActivityFeature(hkService: HealthKitService())
     }))
 }

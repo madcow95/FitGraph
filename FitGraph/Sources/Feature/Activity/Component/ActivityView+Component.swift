@@ -79,17 +79,20 @@ struct SleepContainer: View {
                         .foregroundStyle(Color.purple)
                     Text("-")
                 }
+                .bold()
                 Spacer()
                 VStack(alignment: .leading, spacing: height / 10) {
                     Text("품질")
                         .foregroundStyle(Color.blue)
                     Text("-")
                 }
+                .bold()
                 Spacer()
                 VStack(alignment: .leading, spacing: height / 10) {
                     Text("평균 심박수")
                     Text("-")
                 }
+                .bold()
                 Spacer()
                 Image(systemName: "gauge.with.needle")
                     .resizable()
@@ -124,6 +127,7 @@ struct WorkoutContainer: View {
                                 .foregroundStyle(Color(UIColor.lightGray))
                         }
                     }
+                    .bold()
                     Spacer()
                     VStack(alignment: .leading, spacing: height / 10) {
                         Text("운동")
@@ -134,6 +138,7 @@ struct WorkoutContainer: View {
                                 .foregroundStyle(Color(UIColor.lightGray))
                         }
                     }
+                    .bold()
                     Spacer()
                     VStack(alignment: .leading, spacing: height / 10) {
                         Text("서기")
@@ -144,6 +149,7 @@ struct WorkoutContainer: View {
                                 .foregroundStyle(Color(UIColor.lightGray))
                         }
                     }
+                    .bold()
                     Spacer()
                     Image(systemName: "gauge.with.needle")
                         .resizable()
@@ -172,6 +178,7 @@ struct FeelingContainer: View {
                     VStack(alignment: .leading, spacing: height / 10) {
                         Text("지금 기분이 어떠세요?")
                             .foregroundStyle(Color(UIColor.lightGray))
+                            .bold()
                     }
                     Spacer()
                 }
@@ -202,6 +209,7 @@ struct SunTimeContainer: View {
                                     .foregroundStyle(Color(UIColor.lightGray))
                                 Spacer()
                             }
+                            .bold()
                             HStack {
                                 Spacer()
                                 Image(systemName: "circle.circle")
@@ -235,12 +243,13 @@ struct MindSetContainer: View {
                 HStack {
                     VStack(alignment: .leading, spacing: height / 10) {
                         VStack {
-                            HStack {
+                            HStack(spacing: 0) {
                                 Text("0")
                                 Text("/3분")
                                     .foregroundStyle(Color(UIColor.lightGray))
                                 Spacer()
                             }
+                            .bold()
                             HStack {
                                 Spacer()
                                 Image(systemName: "circle.circle.fill")
@@ -260,6 +269,7 @@ struct MindSetContainer: View {
 struct WalkingContainer: View {
     var width: CGFloat
     var height: CGFloat
+    var walkCount: Int
     
     var body: some View {
         ActivityContainer(
@@ -275,11 +285,13 @@ struct WalkingContainer: View {
                     VStack(alignment: .leading, spacing: height / 10) {
                         VStack {
                             HStack(spacing: 0) {
-                                Text("0")
+                                Text("\(walkCount)")
+                                    .bold()
                                 Text("/10000")
                                     .foregroundStyle(Color(UIColor.lightGray))
                                 Spacer()
                             }
+                            .bold()
                             HStack {
                                 Spacer()
                                 Image(systemName: "circle.circle.fill")
@@ -326,6 +338,7 @@ struct NoiseContainer: View {
                                            height: width / 8)
                             }
                         }
+                        .bold()
                     }
                     Spacer()
                 }
@@ -350,7 +363,7 @@ struct WaterContainer: View {
                 HStack {
                     VStack(alignment: .leading, spacing: height / 10) {
                         VStack {
-                            HStack {
+                            HStack(spacing: 0) {
                                 Text("0")
                                 Text("/2000ml")
                                     .foregroundStyle(Color(UIColor.lightGray))
@@ -365,6 +378,7 @@ struct WaterContainer: View {
                                            height: width / 8)
                             }
                         }
+                        .bold()
                     }
                     Spacer()
                 }
@@ -389,7 +403,7 @@ struct CaffeinContainer: View {
                 HStack {
                     VStack(alignment: .leading, spacing: height / 10) {
                         VStack {
-                            HStack {
+                            HStack(spacing: 0) {
                                 Text("0")
                                 Text("mg")
                                     .foregroundStyle(Color(UIColor.lightGray))
@@ -404,6 +418,7 @@ struct CaffeinContainer: View {
                                            height: width / 8)
                             }
                         }
+                        .bold()
                     }
                     Spacer()
                 }
