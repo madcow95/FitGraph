@@ -52,7 +52,7 @@ struct ActivityView: View {
                     ScrollView(.vertical, showsIndicators: false) {
                         VStack(spacing: 20) {
                             SleepContainer(width: containerWidth, height: containerHeight)
-                            WorkoutContainer(width: containerWidth, height: containerHeight)
+                            WorkoutContainer(width: containerWidth, height: containerHeight, calories: store.calories)
                             
                             FeelingContainer(width: containerWidth, height: containerHeight)
                             
@@ -86,7 +86,7 @@ struct ActivityView: View {
 }
 
 #Preview {
-    ActivityView(store: Store(initialState: ActivityFeature.ActivityState(selectedIndex: 0, dates: [], stepCount: 0), reducer: {
+    ActivityView(store: Store(initialState: ActivityFeature.ActivityState(selectedIndex: 0, dates: [], stepCount: 0, calories: 0), reducer: {
         ActivityFeature(hkService: HealthKitService())
     }))
 }

@@ -106,6 +106,7 @@ struct SleepContainer: View {
 struct WorkoutContainer: View {
     var width: CGFloat
     var height: CGFloat
+    var calories: Int
     
     var body: some View {
         ActivityContainer(
@@ -122,7 +123,7 @@ struct WorkoutContainer: View {
                         Text("움직임")
                             .foregroundStyle(Color.red)
                         HStack(spacing: 3) {
-                            Text("0")
+                            Text("\(calories)")
                             Text("Cal")
                                 .foregroundStyle(Color(UIColor.lightGray))
                         }

@@ -18,6 +18,7 @@ struct ActivityFeature {
         var selectedIndex: Int
         var dates: [Date]
         var stepCount: Int
+        var calories: Int
     }
     
     enum ActivityAction {
@@ -25,6 +26,7 @@ struct ActivityFeature {
         case dateSelected(Int)
         case fetchStepCount(Int)
         case fetchSleep([HKCategorySample])
+        case fetchWorkout((Int, Int, Int))
     }
     
     var body: some Reducer<ActivityState, ActivityAction> {
@@ -38,6 +40,9 @@ struct ActivityFeature {
                     },
                     .run { send in
                         await send(.fetchSleep(await hkService.fetchSleep(date: Date())))
+                    },
+                    .run { send in
+                        await send(.fetchWorkout(await hkService.fetchWorkout(date: Date())))
                     }
                 ])
             case .dateSelected(let index):
@@ -49,13 +54,20 @@ struct ActivityFeature {
                     },
                     .run { send in
                         await send(.fetchSleep(await hkService.fetchSleep(date: selectedDate)))
+                    },
+                    .run { send in
+                        await send(.fetchWorkout(await hkService.fetchWorkout(date: selectedDate)))
                     }
                 ])
             case .fetchStepCount(let step):
                 state.stepCount = step
                 
                 return .none
-            case .fetchSleep(let sleepData):
+            case .fetchSleep(let _):
+                
+                return .none
+            case .fetchWorkout(let workouts):
+                state.calories = workouts.0
                 
                 return .none
             }
