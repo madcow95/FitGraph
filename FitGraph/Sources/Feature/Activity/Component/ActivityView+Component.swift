@@ -106,7 +106,9 @@ struct SleepContainer: View {
 struct WorkoutContainer: View {
     var width: CGFloat
     var height: CGFloat
-    var calories: Int
+    var caloriesConsumption: Int
+    var workoutTime: Int
+    var standTime: Int
     
     var body: some View {
         ActivityContainer(
@@ -123,7 +125,7 @@ struct WorkoutContainer: View {
                         Text("움직임")
                             .foregroundStyle(Color.red)
                         HStack(spacing: 3) {
-                            Text("\(calories)")
+                            Text("\(caloriesConsumption)")
                             Text("Cal")
                                 .foregroundStyle(Color(UIColor.lightGray))
                         }
@@ -134,7 +136,7 @@ struct WorkoutContainer: View {
                         Text("운동")
                             .foregroundStyle(Color.green)
                         HStack(spacing: 3) {
-                            Text("0")
+                            Text("\(workoutTime)")
                             Text("분")
                                 .foregroundStyle(Color(UIColor.lightGray))
                         }
@@ -145,7 +147,7 @@ struct WorkoutContainer: View {
                         Text("서기")
                             .foregroundStyle(Color.blue)
                         HStack(spacing: 3) {
-                            Text("0")
+                            Text("\(standTime)")
                             Text("시간")
                                 .foregroundStyle(Color(UIColor.lightGray))
                         }
@@ -180,86 +182,6 @@ struct FeelingContainer: View {
                         Text("지금 기분이 어떠세요?")
                             .foregroundStyle(Color(UIColor.lightGray))
                             .bold()
-                    }
-                    Spacer()
-                }
-            }
-    }
-}
-
-struct SunTimeContainer: View {
-    var width: CGFloat
-    var height: CGFloat
-    
-    var body: some View {
-        ActivityContainer(
-            width: width / 2,
-            height: height,
-            backgroundColor: .white,
-            headerImage: Image(systemName: "sun.max"),
-            headerImageColor: .yellow,
-            headerTitle: "일광 시간",
-            headerIcon: Image(systemName: "chevron.right"),
-            headerIconColor: Color(UIColor.lightGray)) {
-                HStack {
-                    VStack(alignment: .leading, spacing: height / 10) {
-                        VStack {
-                            HStack(spacing: 0) {
-                                Text("0")
-                                Text("/20분")
-                                    .foregroundStyle(Color(UIColor.lightGray))
-                                Spacer()
-                            }
-                            .bold()
-                            HStack {
-                                Spacer()
-                                Image(systemName: "circle.circle")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: width / 8,
-                                           height: width / 8)
-                            }
-                        }
-                    }
-                    Spacer()
-                }
-            }
-    }
-}
-
-struct MindSetContainer: View {
-    var width: CGFloat
-    var height: CGFloat
-    
-    var body: some View {
-        ActivityContainer(
-            width: width / 2,
-            height: height,
-            backgroundColor: .white,
-            headerImage: Image(systemName: "figure.mind.and.body"),
-            headerImageColor: .blue,
-            headerTitle: "마음챙김",
-            headerIcon: Image(systemName: "chevron.right"),
-            headerIconColor: Color(UIColor.lightGray)) {
-                HStack {
-                    VStack(alignment: .leading, spacing: height / 10) {
-                        VStack {
-                            HStack(spacing: 0) {
-                                Text("0")
-                                Text("/3분")
-                                    .foregroundStyle(Color(UIColor.lightGray))
-                                Spacer()
-                            }
-                            .bold()
-                            HStack {
-                                Spacer()
-                                Image(systemName: "circle.circle.fill")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: width / 8,
-                                           height: width / 8)
-                            }
-                        }
                     }
                     Spacer()
                 }
@@ -309,44 +231,6 @@ struct WalkingContainer: View {
     }
 }
 
-struct NoiseContainer: View {
-    var width: CGFloat
-    var height: CGFloat
-    
-    var body: some View {
-        ActivityContainer(
-            width: width / 2,
-            height: height,
-            backgroundColor: .white,
-            headerImage: Image(systemName: "waveform.path"),
-            headerImageColor: Color(UIColor.systemBlue),
-            headerTitle: "소음",
-            headerIcon: Image(systemName: "chevron.right"),
-            headerIconColor: Color(UIColor.lightGray)) {
-                HStack {
-                    VStack(alignment: .leading, spacing: height / 10) {
-                        VStack {
-                            HStack {
-                                Text("-")
-                                Spacer()
-                            }
-                            HStack {
-                                Spacer()
-                                Image(systemName: "ear")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: width / 8,
-                                           height: width / 8)
-                            }
-                        }
-                        .bold()
-                    }
-                    Spacer()
-                }
-            }
-    }
-}
-
 struct WaterContainer: View {
     var width: CGFloat
     var height: CGFloat
@@ -373,46 +257,6 @@ struct WaterContainer: View {
                             HStack {
                                 Spacer()
                                 Image(systemName: "ear")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: width / 8,
-                                           height: width / 8)
-                            }
-                        }
-                        .bold()
-                    }
-                    Spacer()
-                }
-            }
-    }
-}
-
-struct CaffeinContainer: View {
-    var width: CGFloat
-    var height: CGFloat
-    
-    var body: some View {
-        ActivityContainer(
-            width: width / 2,
-            height: height,
-            backgroundColor: .white,
-            headerImage: Image(systemName: "heart"),
-            headerImageColor: .brown,
-            headerTitle: "카페인",
-            headerIcon: Image(systemName: "plus.circle"),
-            headerIconColor: .brown) {
-                HStack {
-                    VStack(alignment: .leading, spacing: height / 10) {
-                        VStack {
-                            HStack(spacing: 0) {
-                                Text("0")
-                                Text("mg")
-                                    .foregroundStyle(Color(UIColor.lightGray))
-                                Spacer()
-                            }
-                            HStack {
-                                Spacer()
-                                Image(systemName: "mug")
                                     .resizable()
                                     .scaledToFit()
                                     .frame(width: width / 8,

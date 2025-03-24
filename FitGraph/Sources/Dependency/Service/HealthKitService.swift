@@ -67,13 +67,12 @@ final class HealthKitService {
         }
     }
     
-    func requestAuth(completion: @escaping (Bool) -> Void) async {
+    func requestAuth() async {
         let readTypes: Set<HKObjectType> = Set(WorkoutType.allCases.map { $0.readType })
         let writeTypes: Set<HKSampleType> = Set(WorkoutType.allCases.map { $0.writeType })
         
         do {
             try await hkStore.requestAuthorization(toShare: writeTypes, read: readTypes)
-            completion(true)
         } catch {
             print(error.localizedDescription)
         }
@@ -132,7 +131,7 @@ final class HealthKitService {
         }
     }
     
-    func fetchWorkout(date: Date) async -> (Int, Int, Int) {
+    func fetchCalorieConsumption(date: Date) async -> (Int, Int, Int) {
         await withCheckedContinuation { continuation in
             let calendar = Calendar.current
             let startOfDay = calendar.startOfDay(for: date)
@@ -144,6 +143,38 @@ final class HealthKitService {
             }
             
             hkStore.execute(energyQuery)
+        }
+    }
+    
+    func fetchWorkoutTime(date: Date) async -> Int {
+        await withCheckedContinuation { continuation in
+            let calendar = Calendar.current
+            let startOfDay = calendar.startOfDay(for: date)
+            let predicate = HKQuery.predicateForSamples(withStart: startOfDay, end: Date(), options: .strictStartDate)
+            
+            let workoutTimeQuery = HKStatisticsQuery(quantityType: WorkoutType.workout.readType as! HKQuantityType, quantitySamplePredicate: predicate) { _, result, _ in
+                let workoutTime = result?.sumQuantity()?.doubleValue(for: HKUnit.minute()) ?? 0
+                
+                continuation.resume(returning: Int(workoutTime))
+            }
+            
+            hkStore.execute(workoutTimeQuery)
+        }
+    }
+    
+    func fetchStandTime(date: Date) async -> Int {
+        await withCheckedContinuation { continuation in
+            let calendar = Calendar.current
+            let startOfDay = calendar.startOfDay(for: date)
+            let predicate = HKQuery.predicateForSamples(withStart: startOfDay, end: Date(), options: .strictStartDate)
+            
+            let workoutTimeQuery = HKStatisticsQuery(quantityType: WorkoutType.appleStandTime.readType as! HKQuantityType, quantitySamplePredicate: predicate) { _, result, _ in
+                let workoutTime = result?.sumQuantity()?.doubleValue(for: HKUnit.minute()) ?? 0
+                
+                continuation.resume(returning: Int(workoutTime))
+            }
+            
+            hkStore.execute(workoutTimeQuery)
         }
     }
 }

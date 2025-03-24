@@ -24,9 +24,7 @@ struct MainTabFeature {
             switch action {
             case .requestAuth:
                 Task {
-                    await HKService.requestAuth { _ in
-                        print("test")
-                    }
+                    await HKService.requestAuth()
                 }
                 return .none
             }

@@ -41,6 +41,9 @@ struct ActivityView: View {
                                     }
                                     .foregroundStyle(Int(Date().dayStr)! >= Int(date.dayStr)! ? Color(UIColor.label) : Color(UIColor.lightGray))
                                     .onTapGesture {
+                                        if Int(Date().dayStr)! < Int(date.dayStr)! {
+                                            return
+                                        }
                                         self.store.send(.dateSelected(i), animation: .interactiveSpring)
                                     }
                                 }
@@ -51,26 +54,23 @@ struct ActivityView: View {
                     
                     ScrollView(.vertical, showsIndicators: false) {
                         VStack(spacing: 20) {
-                            SleepContainer(width: containerWidth, height: containerHeight)
-                            WorkoutContainer(width: containerWidth, height: containerHeight, calories: store.calories)
+                            SleepContainer(width: containerWidth,
+                                           height: containerHeight)
+                            WorkoutContainer(width: containerWidth,
+                                             height: containerHeight,
+                                             caloriesConsumption: store.calories,
+                                             workoutTime: store.workoutTime,
+                                             standTime: store.standTime)
                             
-                            FeelingContainer(width: containerWidth, height: containerHeight)
-                            
-                            HStack {
-                                SunTimeContainer(width: containerWidth, height: containerHeight)
-                                MindSetContainer(width: containerWidth, height: containerHeight)
-                            }
+                            FeelingContainer(width: containerWidth,
+                                             height: containerHeight)
                             
                             HStack {
                                 WalkingContainer(width: containerWidth,
                                                  height: containerHeight,
                                                  walkCount: store.stepCount)
-                                NoiseContainer(width: containerWidth, height: containerHeight)
-                            }
-                            
-                            HStack {
-                                WaterContainer(width: containerWidth, height: containerHeight)
-                                CaffeinContainer(width: containerWidth, height: containerHeight)
+                                WaterContainer(width: containerWidth,
+                                               height: containerHeight)
                             }
                         }
                     }
@@ -86,7 +86,7 @@ struct ActivityView: View {
 }
 
 #Preview {
-    ActivityView(store: Store(initialState: ActivityFeature.ActivityState(selectedIndex: 0, dates: [], stepCount: 0, calories: 0), reducer: {
+    ActivityView(store: Store(initialState: ActivityFeature.ActivityState(), reducer: {
         ActivityFeature(hkService: HealthKitService())
     }))
 }

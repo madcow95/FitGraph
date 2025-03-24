@@ -7,7 +7,7 @@ struct MainTabView: View {
     var body: some View {
         TabView {
             Tab("", systemImage: "house.fill") {
-                ActivityView(store: Store(initialState: ActivityFeature.ActivityState(selectedIndex: 0, dates: [], stepCount: 0, calories: 0), reducer: {
+                ActivityView(store: Store(initialState: ActivityFeature.ActivityState(), reducer: {
                     ActivityFeature(hkService: HealthKitService())
                 }))
             }

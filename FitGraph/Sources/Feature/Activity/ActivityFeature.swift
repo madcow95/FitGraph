@@ -15,10 +15,12 @@ struct ActivityFeature {
     
     @ObservableState
     struct ActivityState: Equatable {
-        var selectedIndex: Int
-        var dates: [Date]
-        var stepCount: Int
-        var calories: Int
+        var selectedIndex: Int = 0
+        var dates: [Date] = []
+        var stepCount: Int = 0
+        var calories: Int = 0
+        var workoutTime: Int = 0
+        var standTime: Int = 0
     }
     
     enum ActivityAction {
@@ -26,7 +28,9 @@ struct ActivityFeature {
         case dateSelected(Int)
         case fetchStepCount(Int)
         case fetchSleep([HKCategorySample])
-        case fetchWorkout((Int, Int, Int))
+        case fetchEnergyConsumption((Int, Int, Int))
+        case fetchWorkoutTime(Int)
+        case fetchStandTime(Int)
     }
     
     var body: some Reducer<ActivityState, ActivityAction> {
@@ -42,7 +46,13 @@ struct ActivityFeature {
                         await send(.fetchSleep(await hkService.fetchSleep(date: Date())))
                     },
                     .run { send in
-                        await send(.fetchWorkout(await hkService.fetchWorkout(date: Date())))
+                        await send(.fetchEnergyConsumption(await hkService.fetchCalorieConsumption(date: Date())))
+                    },
+                    .run { send in
+                        await send(.fetchEnergyConsumption(await hkService.fetchCalorieConsumption(date: Date())))
+                    },
+                    .run { send in
+                        await send(.fetchStandTime(await hkService.fetchStandTime(date: Date())))
                     }
                 ])
             case .dateSelected(let index):
@@ -56,18 +66,32 @@ struct ActivityFeature {
                         await send(.fetchSleep(await hkService.fetchSleep(date: selectedDate)))
                     },
                     .run { send in
-                        await send(.fetchWorkout(await hkService.fetchWorkout(date: selectedDate)))
+                        await send(.fetchEnergyConsumption(await hkService.fetchCalorieConsumption(date: selectedDate)))
+                    },
+                    .run { send in
+                        await send(.fetchEnergyConsumption(await hkService.fetchCalorieConsumption(date: Date())))
+                    },
+                    .run { send in
+                        await send(.fetchStandTime(await hkService.fetchStandTime(date: Date())))
                     }
                 ])
             case .fetchStepCount(let step):
                 state.stepCount = step
                 
                 return .none
-            case .fetchSleep(let _):
+            case .fetchSleep/*(let _)*/:
                 
                 return .none
-            case .fetchWorkout(let workouts):
+            case .fetchEnergyConsumption(let workouts):
                 state.calories = workouts.0
+                
+                return .none
+            case .fetchWorkoutTime(let time):
+                state.workoutTime = time
+                
+                return .none
+            case .fetchStandTime(let time):
+                state.standTime = time
                 
                 return .none
             }
