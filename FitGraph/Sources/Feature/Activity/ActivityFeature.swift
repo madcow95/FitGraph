@@ -49,7 +49,7 @@ struct ActivityFeature {
                         await send(.fetchEnergyConsumption(await hkService.fetchCalorieConsumption(date: Date())))
                     },
                     .run { send in
-                        await send(.fetchEnergyConsumption(await hkService.fetchCalorieConsumption(date: Date())))
+                        await send(.fetchWorkoutTime(await hkService.fetchWorkoutTime(date: Date())))
                     },
                     .run { send in
                         await send(.fetchStandTime(await hkService.fetchStandTime(date: Date())))
@@ -69,10 +69,10 @@ struct ActivityFeature {
                         await send(.fetchEnergyConsumption(await hkService.fetchCalorieConsumption(date: selectedDate)))
                     },
                     .run { send in
-                        await send(.fetchEnergyConsumption(await hkService.fetchCalorieConsumption(date: Date())))
+                        await send(.fetchWorkoutTime(await hkService.fetchWorkoutTime(date: selectedDate)))
                     },
                     .run { send in
-                        await send(.fetchStandTime(await hkService.fetchStandTime(date: Date())))
+                        await send(.fetchStandTime(await hkService.fetchStandTime(date: selectedDate)))
                     }
                 ])
             case .fetchStepCount(let step):

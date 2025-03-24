@@ -18,7 +18,7 @@ final class HealthKitService {
         case water
         case activeEnergyType
         case appleExerciseTime
-        case appleStandTime
+        case appleStandHour
         
         var readType: HKObjectType {
             get {
@@ -39,8 +39,8 @@ final class HealthKitService {
                     return HKQuantityType(.activeEnergyBurned)
                 case .appleExerciseTime:
                     return HKQuantityType(.appleExerciseTime)
-                case .appleStandTime:
-                    return HKQuantityType(.appleStandTime)
+                case .appleStandHour: // 수정
+                   return HKCategoryType(.appleStandHour)
                 }
             }
         }
@@ -149,32 +149,55 @@ final class HealthKitService {
     func fetchWorkoutTime(date: Date) async -> Int {
         await withCheckedContinuation { continuation in
             let calendar = Calendar.current
-            let startOfDay = calendar.startOfDay(for: date)
+            let startOfDay = calendar.startOfDay(for: Date())
             let predicate = HKQuery.predicateForSamples(withStart: startOfDay, end: Date(), options: .strictStartDate)
             
-            let workoutTimeQuery = HKStatisticsQuery(quantityType: WorkoutType.workout.readType as! HKQuantityType, quantitySamplePredicate: predicate) { _, result, _ in
-                let workoutTime = result?.sumQuantity()?.doubleValue(for: HKUnit.minute()) ?? 0
+            let workoutType = HKObjectType.workoutType()
+            
+            let query = HKSampleQuery(sampleType: workoutType,
+                                      predicate: predicate,
+                                      limit: HKObjectQueryNoLimit,
+                                      sortDescriptors: nil) { _, samples, _ in
+                guard let workouts = samples as? [HKWorkout] else {
+                    continuation.resume(returning: 0)
+                    return
+                }
                 
-                continuation.resume(returning: Int(workoutTime))
+                let totalDuration = workouts.reduce(0) { $0 + $1.duration } // duration in seconds
+                let totalMinutes = Int(totalDuration / 60)
+                
+                continuation.resume(returning: totalMinutes)
             }
             
-            hkStore.execute(workoutTimeQuery)
+            hkStore.execute(query)
         }
     }
     
     func fetchStandTime(date: Date) async -> Int {
         await withCheckedContinuation { continuation in
             let calendar = Calendar.current
-            let startOfDay = calendar.startOfDay(for: date)
-            let predicate = HKQuery.predicateForSamples(withStart: startOfDay, end: Date(), options: .strictStartDate)
+            let startOfDay = calendar.startOfDay(for: date) // 수정
+            let endOfDay = calendar.date(byAdding: .day, value: 1, to: startOfDay)!
+            let predicate = HKQuery.predicateForSamples(withStart: startOfDay, end: endOfDay, options: .strictStartDate)
             
-            let workoutTimeQuery = HKStatisticsQuery(quantityType: WorkoutType.appleStandTime.readType as! HKQuantityType, quantitySamplePredicate: predicate) { _, result, _ in
-                let workoutTime = result?.sumQuantity()?.doubleValue(for: HKUnit.minute()) ?? 0
+            let standType = HKObjectType.categoryType(forIdentifier: .appleStandHour)!
+            
+            let query = HKSampleQuery(sampleType: standType,
+                                      predicate: predicate,
+                                      limit: HKObjectQueryNoLimit,
+                                      sortDescriptors: nil) { _, samples, _ in
+                guard let standSamples = samples as? [HKCategorySample] else {
+                    continuation.resume(returning: 0)
+                    return
+                }
                 
-                continuation.resume(returning: Int(workoutTime))
+                // Stand한 시간만 필터
+                let standCount = standSamples.filter { $0.value == 1 }.count
+                
+                continuation.resume(returning: standCount)
             }
             
-            hkStore.execute(workoutTimeQuery)
+            hkStore.execute(query)
         }
     }
 }

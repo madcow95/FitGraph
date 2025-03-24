@@ -8,6 +8,23 @@ struct ActivityView: View {
         GeometryReader { geo in
             let containerWidth = geo.size.width - 40
             let containerHeight = geo.size.height / 5
+            
+            ActivityContentView(
+                store: store,
+                containerWidth: containerWidth,
+                containerHeight: containerHeight
+            )
+        }
+    }
+}
+
+struct ActivityContentView: View {
+    let store: StoreOf<ActivityFeature>
+    let containerWidth: CGFloat
+    let containerHeight: CGFloat
+    
+    var body: some View {
+        GeometryReader { geo in
             ZStack {
                 Color.lightBackgroundColor
                     .ignoresSafeArea()
