@@ -5,13 +5,13 @@ import ComposableArchitecture
 struct MyPageFeature {
     @ObservableState
     struct MyPageState {
-        var path = StackState<SettingFeature.SettingState>()
+        var settingPath = StackState<SettingFeature.SettingState>()
     }
 
     @CasePathable
     enum MyPageAction {
         case settingButtonTapped
-        case path(StackActionOf<SettingFeature>)
+        case settingPathAction(StackActionOf<SettingFeature>)
     }
 
     var body: some Reducer<MyPageState, MyPageAction> {
@@ -21,11 +21,11 @@ struct MyPageFeature {
             case .settingButtonTapped:
                 
                 return .none
-            case .path:
+            case .settingPathAction:
                 return .none
             }
         }
-        .forEach(\.path, action: \.path) {
+        .forEach(\.settingPath, action: \.settingPathAction) {
             SettingFeature()
         }
     }
