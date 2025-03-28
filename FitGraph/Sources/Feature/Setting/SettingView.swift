@@ -1,19 +1,18 @@
 import SwiftUI
+import ComposableArchitecture
 
 struct SettingView: View {
-    let list: [String] = []
+    @Bindable var store: StoreOf<SettingFeature>
     
     var body: some View {
-        List(list, id: \.self) { item in
-            Button {
-                
-            } label: {
-                Text(item)
-            }
+        VStack {
+            
         }
     }
 }
 
 #Preview {
-    SettingView()
+    SettingView(store: Store(initialState: SettingFeature.SettingState(), reducer: {
+        SettingFeature()
+    }))
 }

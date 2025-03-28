@@ -13,7 +13,9 @@ struct MainTabView: View {
             }
 
             Tab("", systemImage: "person.fill") {
-                MyPageView()
+                MyPageView(store: Store(initialState: MyPageFeature.MyPageState(), reducer: {
+                    MyPageFeature()
+                }))
             }
         }
         .onAppear {

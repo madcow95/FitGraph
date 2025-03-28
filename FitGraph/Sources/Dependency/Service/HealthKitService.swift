@@ -176,7 +176,7 @@ final class HealthKitService {
     func fetchStandTime(date: Date) async -> Int {
         await withCheckedContinuation { continuation in
             let calendar = Calendar.current
-            let startOfDay = calendar.startOfDay(for: date) // 수정
+            let startOfDay = calendar.startOfDay(for: date)
             let endOfDay = calendar.date(byAdding: .day, value: 1, to: startOfDay)!
             let predicate = HKQuery.predicateForSamples(withStart: startOfDay, end: endOfDay, options: .strictStartDate)
             
