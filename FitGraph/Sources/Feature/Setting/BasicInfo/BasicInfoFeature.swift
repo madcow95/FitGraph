@@ -11,7 +11,7 @@ import ComposableArchitecture
 @Reducer
 struct BasicInfoFeature {
     @ObservableState
-    struct State {
+    struct State: Hashable {
         
     }
     

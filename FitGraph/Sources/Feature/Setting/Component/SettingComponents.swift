@@ -8,7 +8,7 @@
 import SwiftUI
 import ComposableArchitecture
 
-enum SettingNavigationState {
+enum SettingNavigationState: Hashable {
     case basicInfo(BasicInfoFeature.State)
     case alarmSetting(AlarmSettingFeature.State)
 }
@@ -47,6 +47,7 @@ struct SettingContainer: View {
                 NavigationLink(state: ct.destinationState) {
                     HStack {
                         Text(ct.title)
+                            .foregroundStyle(Color.black)
                         
                         Spacer()
                         

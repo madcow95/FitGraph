@@ -10,10 +10,30 @@ struct SettingView: View {
                 ZStack {
                     Color.lightBackgroundColor
                         .ignoresSafeArea()
-                    SettingContentView(store: store, width: geo.size.width - 40)
+                    ScrollView {
+                        VStack(spacing: 20) {
+                            BasicInfoContainer(width: geo.size.width - 40)
+                            
+                            AlarmContainer(width: geo.size.width - 40)
+                            
+                            AitivityContainer(width: geo.size.width - 40)
+                        }
+                    }
                 }
                 .navigationTitle("사용자 설정")
                 .navigationBarTitleDisplayMode(.inline)
+                .navigationDestination(for: SettingNavigationState.self) { state in
+                    switch state {
+                    case let .basicInfo(basicInfoState):
+                        BasicInfoView(store: Store(initialState: basicInfoState, reducer: {
+                            BasicInfoFeature()
+                        }))
+                    case let .alarmSetting(alarmState):
+                        AlarmSettingView(store: Store(initialState: alarmState, reducer: {
+                            AlarmSettingFeature()
+                        }))
+                    }
+                }
             }
         }
     }

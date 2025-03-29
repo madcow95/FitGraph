@@ -11,7 +11,7 @@ import ComposableArchitecture
 @Reducer
 struct AlarmSettingFeature {
     @ObservableState
-    struct State {
+    struct State: Hashable {
         
     }
     
