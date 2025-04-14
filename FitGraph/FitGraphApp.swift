@@ -11,7 +11,7 @@ import SwiftUI
 struct FitGraphApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            MainTabView(viewModel: MainTabViewModel())
         }
     }
 }
