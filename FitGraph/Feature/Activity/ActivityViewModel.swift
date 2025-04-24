@@ -28,8 +28,16 @@ final class ActivityViewModel: ObservableObject {
     
     func fetchData(selectedDate: Date) {
         Task {
-            await fetchStepCount(date: selectedDate)
-            await fetchEnergyConsumption(date: selectedDate)
+            async let stepCount = hkService.fetchStepCount(date: selectedDate)
+            async let energy = hkService.fetchCalorieConsumption(date: selectedDate)
+            
+            self.stepCount = Int(await stepCount)
+            let (calories, workout, standTime) = await energy
+            self.calories = calories
+            self.workoutTime = workout
+            self.standTime = standTime
+//            await fetchStepCount(date: selectedDate)
+//            await fetchEnergyConsumption(date: selectedDate)
         }
     }
     

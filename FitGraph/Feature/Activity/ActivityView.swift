@@ -78,7 +78,10 @@ struct ActivityContentView: View {
                                     if Int(Date().dayStr)! < Int(date.dayStr)! {
                                         return
                                     }
-                                    viewModel.updateSelectedIndex(index: i)
+                                    viewModel.fetchData(selectedDate: date)
+                                    withAnimation {
+                                        viewModel.updateSelectedIndex(index: i)
+                                    }
                                 }
                             }
                             .padding()
